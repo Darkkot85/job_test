@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Категории_тестовое</title>
+</head>
+<body>
+{% load mptt_tags %}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+<ul>
+    {% recursetree nodes %}
+        <li>
+            <a href="{% url 'show_category' node.id %}">{{ node.name }}</a>
+            {% if not node.is_leaf_node %}
+                <ul>
+                    {{ children }}
+                </ul>
+            {% endif %}
+        </li>
+    {% endrecursetree %}
+</ul>
+<form method="post" action="{% url "main" %}">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Создать" class="btn btn-default"/>
+</form>
+</body>
+</html>

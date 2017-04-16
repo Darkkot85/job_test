@@ -1,0 +1,20 @@
+{% extends 'main/base.html' %} {% block body %}
+<ol class="breadcrumb">
+    {% for parent in current_category.get_ancestors %}
+        <li><a href="/category/{{ parent.id }}/">{{ parent.name }}</a></li>
+        <span class="glyphicon glyphicon-circle-arrow-right"></span>
+    {% endfor %}
+    <li class="active"><a href="/category/{{ current_category.id }}/">{{ current_category.name }}</a></li>
+</ol>
+
+<form action="{% url 'show_category' current_category.id %}" method="post">
+{% csrf_token %}
+    <div class="row">
+         <div class="col-xs-8">
+            <input type="text" class="form-control" value="{{ current_category.name }}" name="cat_name" maxlength="50">
+         </div>
+    <input type="submit" class="btn" value="Переименовать" name="button_rename">
+    <input type="submit" class="btn" value=" Удалить" name="button_delete">
+    </div>
+</form>
+{% endblock %}
